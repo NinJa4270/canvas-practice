@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="400" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // 直线
+      //   ctx.moveTo(100, 100);
+      //   ctx.lineTo(500, 200);
+      //   ctx.stroke();
+
+      // 多条直线
+      //   ctx.moveTo(100, 100);
+      //   ctx.lineTo(500, 100);
+      //   ctx.moveTo(100, 300);
+      //   ctx.lineTo(500, 300);
+      //   ctx.stroke();
+
+      // 多条直线 - 三角形
+      //   ctx.moveTo(100, 100);
+      //   ctx.lineTo(500, 100);
+      //   ctx.lineTo(100, 300);
+      //   ctx.lineTo(100, 100);
+      //   ctx.stroke();
+
+      // 多条直线 - 矩形
+      //   ctx.moveTo(100, 100);
+      //   ctx.lineTo(500, 100);
+      //   ctx.lineTo(500, 300);
+      //   ctx.lineTo(100, 300);
+      //   ctx.lineTo(100, 100);
+      //   ctx.stroke();
+
+      //   矩形 - 描边矩形
+      //   ctx.strokeStyle = "#FFF000";
+      //   ctx.strokeRect(100, 100, 400, 200);
+
+      //   矩形 - 填充矩形
+      //   ctx.fillStyle = "#FFF000";
+      //   ctx.fillRect(100, 100, 400, 200);
+
+      //   矩形 - 填充描边矩形
+      //   ctx.strokeStyle = "red";
+      //   ctx.strokeRect(100, 100, 400, 200);
+      //   ctx.fillStyle = "#FFF000";
+      //   ctx.fillRect(100, 100, 400, 200);
+
+      //   矩形 - rect stroke
+      // ctx.strokeStyle = "#FFF000";
+      // ctx.rect(100, 100, 400, 200);
+      // ctx.stroke();
+
+      //   矩形 - rect fill
+      // ctx.fillStyle = "#FFF000";
+      // ctx.rect(100, 100, 400, 200);
+      // ctx.fill();
+
+      //   矩形 - 清空矩形
+      // ctx.fillStyle = "#FFF000";
+      // ctx.rect(100, 100, 400, 200);
+      // ctx.fill();
+      // ctx.clearRect(150, 150, 50, 50);
+
+      // 多边形 - 箭头
+      // ctx.moveTo(100, 100);
+      // ctx.lineTo(400, 100);
+      // ctx.lineTo(400, 50);
+      // ctx.lineTo(500, 125);
+      // ctx.lineTo(400, 200);
+      // ctx.lineTo(400, 150);
+      // ctx.lineTo(100, 150);
+      // ctx.lineTo(100, 100);
+      // ctx.stroke();
+
+      // 多边形 - 正多边形
+      // function drawPolygon(n, x, y, size) {
+      //   if (n < 3) throw new Error(`n 不能小于3。n 为 ${n}`);
+      //   ctx.beginPath();
+      //   const degree = (Math.PI * 2) / n; // 每一个内角
+      //   for (let i = 0; i < n; i++) {
+      //     const dx = Math.cos(i * degree);
+      //     const dy = Math.sin(i * degree);
+      //     ctx.lineTo(x + size * dx, y + size * dy);
+      //   }
+      //   ctx.closePath();
+      // }
+
+      // drawPolygon(5, 300, 200, 100);
+      // ctx.fillStyle = "red";
+      // ctx.fill();
+
+      // 多边形 - 五角星
+      // function drawPentagram(dx, dy, R = 100, r = 50) {
+      //   const wDegree = 18;
+      //   const nDegree = 54;
+      //   const getDegree = (n) => (Math.PI / 180) * n;
+      //   const getX = (v) => Math.cos(getDegree(v));
+      //   const getY = (v) => - Math.sin(getDegree(v));
+      //   ctx.beginPath();
+      //   for (let i = 0; i < 5; i++) {
+      //     // 外
+      //     const wx = R * getX(wDegree + i * 72) + dx;
+      //     const wy = R * getY(wDegree + i * 72) + dy;
+      //     ctx.lineTo(wx, wy);
+      //     // 内
+      //     const nx = r * getX(nDegree + i * 72) + dx;
+      //     const ny = r * getY(nDegree + i * 72) + dy;
+      //     ctx.lineTo(nx, ny);
+      //   }
+      //   ctx.closePath();
+      // }
+      // drawPentagram(300, 200);
+      // ctx.fillStyle = "red";
+      // ctx.fill();
+
+      // 调色板
+      function drawPalette(w, h) {
+        let r = 255,
+          g = 0,
+          b = 0;
+        const size = w / 150;
+        for (let i = 0; i < 150; i++) {
+          if (i < 25) {
+            g += 10;
+          } else if (i > 25 && i < 50) {
+            r -= 10;
+          } else if (i > 50 && i < 75) {
+            g -= 10;
+            b += 10;
+          } else if (i > 75 && i < 100) {
+            r += 10;
+          } else {
+            b -= 10;
+          }
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.fillRect(size * i, 0, size, h);
+        }
+      }
+      drawPalette(600, 400);
+    </script>
+  </body>
+</html>

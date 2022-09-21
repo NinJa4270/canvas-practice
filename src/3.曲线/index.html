@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="400" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // 圆形 - 描边圆
+      // ctx.arc(300, 200, 100, 0, Math.PI * 2);
+      // ctx.stroke();
+
+      // 圆形 - 描边圆 半圆
+      // ctx.beginPath();
+      // ctx.arc(300, 200, 100, 0, Math.PI);
+      // ctx.closePath();
+      // ctx.stroke();
+
+      // 圆形 - 填充圆
+      // ctx.arc(300, 200, 100, 0, Math.PI * 2);
+      // ctx.fill();
+
+      // 弧线 - arc
+      // ctx.arc(300, 200, 100, -Math.PI / 2, Math.PI / 18);
+      // ctx.stroke();
+
+      // 弧线 加 直线
+      // ctx.moveTo(200, 100);
+      // ctx.lineTo(300, 100);
+      // ctx.arc(300, 200, 100, Math.PI * 1.5, Math.PI * 2);
+      // ctx.moveTo(400, 200);
+      // ctx.lineTo(400, 300);
+      // ctx.stroke();
+
+      // 弧线 - arcTo
+      // ctx.moveTo(200, 100);
+      // ctx.lineTo(300, 100);
+      // ctx.arcTo(400, 100, 400, 200, 100);
+      // ctx.lineTo(400, 300);
+      // ctx.stroke();
+
+      // 弧线 - 圆角矩形
+      // function drawRoundRect(x, y, w, h, r) {
+      //   ctx.beginPath();
+      //   ctx.moveTo(x + r, y);
+      //   ctx.lineTo(x - r * 2 + w, y);
+      //   ctx.arcTo(x + w, y, x + w, y + r, r);
+      //   ctx.lineTo(x + w, y + h - r * 2);
+      //   ctx.arcTo(x + w, y + h, x + w - r * 2, y + h, r);
+      //   ctx.lineTo(x + r, y + h);
+      //   ctx.arcTo(x, y + h, x, y + h - r * 2, r);
+      //   ctx.lineTo(x, y + r);
+      //   ctx.arcTo(x, y, x + r, y, r);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      // }
+      // drawRoundRect(100, 100, 300, 200, 50);
+
+      // 二次贝塞尔曲线
+      // ctx.moveTo(100, 200);
+      // ctx.quadraticCurveTo(200, 300, 400, 200);
+
+      // ctx.moveTo(100, 300);
+      // ctx.lineTo(400, 300);
+      // ctx.stroke();
+
+      // 二次贝塞尔曲线 - 气泡
+      // function drawBubble() {
+      //   ctx.moveTo(75, 25);
+      //   ctx.quadraticCurveTo(25, 25, 25, 62);
+      //   ctx.quadraticCurveTo(25, 100, 50, 100);
+      //   ctx.quadraticCurveTo(50, 120, 30, 125);
+      //   ctx.quadraticCurveTo(60, 120, 65, 100);
+      //   ctx.quadraticCurveTo(125, 100, 125, 62);
+      //   ctx.quadraticCurveTo(125, 25, 75, 25);
+      //   ctx.stroke();
+      // }
+      // drawBubble();
+
+      // 三次贝塞尔曲线
+      // ctx.moveTo(100, 200);
+      // ctx.bezierCurveTo(150, 100, 300, 300, 400, 200);
+      // ctx.stroke();
+
+      // 三次贝塞尔曲线 - 心形
+      // function drawHeart() {
+      //   ctx.moveTo(75, 40);
+      //   // ctx.lineTo(300, 100);
+      //   ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+      //   ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+      //   ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+      //   ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+      //   ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+      //   ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+      //   ctx.stroke();
+      // }
+      // drawHeart();
+
+      // 三次贝塞尔曲线 - N叶草
+      // function drawLeaf(n, x, y, size, length) {
+      //   ctx.beginPath();
+      //   ctx.moveTo(x, y + size);
+      //   const degree = (2 * Math.PI) / n;
+      //   for (let i = 1; i <= n; i++) {
+      //     const cx1 = Math.sin((i - 1) * degree) * length + x;
+      //     const cy1 = Math.cos((i - 1) * degree) * length + y;
+      //     const cx2 = Math.sin(i * degree) * length + x;
+      //     const cy2 = Math.cos(i * degree) * length + y;
+      //     const ex = Math.sin(i * degree) * size + x;
+      //     const ey = Math.cos(i * degree) * size + y;
+      //     ctx.bezierCurveTo(cx1, cy1, cx2, cy2, ex, ey);
+      //   }
+      //   ctx.closePath();
+      // }
+      // drawLeaf(5, 300, 200, 20, 80);
+      // ctx.fillStyle = "#00FF99";
+      // ctx.fill();
+
+      // 扇形
+      function drawSector(x, y, r, startRadius, endRadius) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.arc(x, y, r, startRadius, endRadius, false);
+        ctx.closePath();
+      }
+      drawSector(300, 200, 100, (30 * Math.PI) / 180, (120 * Math.PI) / 180);
+      ctx.fillStyle = "red";
+      ctx.fill();
+    </script>
+  </body>
+</html>
