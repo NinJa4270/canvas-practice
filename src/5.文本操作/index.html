@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // fillText 填充文本
+      // ctx.fillText("填充文本", 100, 50, 100);
+
+      // strokeText 填充文本
+      // ctx.strokeText("描边文本", 100, 50, 100);
+
+      // measureText 获取文本长度
+      // const width = ctx.measureText("获取文本长度").width;
+      // console.log(width);
+
+      //  font 样式 大小粗细
+      // ctx.font = "italic small-caps 30px serif";
+      // ctx.strokeText("font 样式", 100, 50);
+
+      // textAlign 水平对齐方式
+      // ctx.moveTo(300, 0);
+      // ctx.lineTo(300, 500);
+      // ctx.stroke();
+      // ctx.font = "15px serif";
+      // ctx.textAlign = "start";
+      // ctx.fillText("水平对齐方式:start", 300, 50);
+      // ctx.textAlign = "end";
+      // ctx.fillText("水平对齐方式:end", 300, 70);
+      // ctx.textAlign = "left";
+      // ctx.fillText("水平对齐方式:left", 300, 90);
+      // ctx.textAlign = "right";
+      // ctx.fillText("水平对齐方式:right", 300, 110);
+      // ctx.textAlign = "center";
+      // ctx.fillText("水平对齐方式:center", 300, 130);
+
+      // textBaseline 垂直对齐方式
+      ctx.font = "30px serif";
+
+      ctx.moveTo(100, 50);
+      ctx.lineTo(500, 50);
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText("垂直对齐方式 alphabetic", 100, 50);
+
+      ctx.moveTo(100, 150);
+      ctx.lineTo(500, 150);
+      ctx.textBaseline = "top";
+      ctx.fillText("垂直对齐方式 top", 100, 150);
+
+      ctx.moveTo(100, 250);
+      ctx.lineTo(500, 250);
+      ctx.textBaseline = "middle";
+      ctx.fillText("垂直对齐方式 middle", 100, 250);
+
+      ctx.moveTo(100, 350);
+      ctx.lineTo(500, 350);
+      ctx.textBaseline = "bottom";
+      ctx.fillText("垂直对齐方式 bottom", 100, 350);
+
+      ctx.moveTo(100, 450);
+      ctx.lineTo(500, 450);
+      ctx.textBaseline = "hanging";
+      ctx.fillText("垂直对齐方式 hanging", 100, 450);
+
+      ctx.moveTo(100, 550);
+      ctx.lineTo(500, 550);
+      ctx.textBaseline = "ideographic";
+      ctx.fillText("垂直对齐方式 ideographic", 100, 550);
+
+      ctx.stroke();
+    </script>
+  </body>
+</html>
