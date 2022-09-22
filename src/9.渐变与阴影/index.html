@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // 线性渐变 rect
+      // const gnt = ctx.createLinearGradient(0, 600, 600, 600);
+      // // const gnt = ctx.createLinearGradient(600, 0, 600, 600);
+      // gnt.addColorStop(0, "#000");
+      // gnt.addColorStop(1, "#FFF");
+      // ctx.fillStyle = gnt;
+      // ctx.fillRect(0, 0, 600, 600);
+
+      // 线性渐变 文字渐变 text
+      // const gnt = ctx.createLinearGradient(0, 600, 600, 600);
+      // gnt.addColorStop(0, "red");
+      // gnt.addColorStop(0.5, "#FFF");
+      // gnt.addColorStop(1, "yellow");
+      // const text = "文字渐变";
+      // ctx.fillStyle = gnt;
+      // ctx.font = "bold 100px serif";
+      // ctx.fillText(text, 100, 100);
+
+      // 经向渐变
+      // const gnt = ctx.createRadialGradient(300, 300, 300, 400, 400, 50);
+      // gnt.addColorStop(0, "red");
+      // gnt.addColorStop(0.9, "orange");
+      // gnt.addColorStop(1, "yellow");
+      // ctx.fillStyle = gnt;
+      // ctx.arc(300, 300, 300, 0, Math.PI * 2);
+      // ctx.fill();
+
+      // 阴影 rect
+      // ctx.shadowOffsetX = 25;
+      // ctx.shadowOffsetY = 25;
+      // ctx.shadowColor = "rgba(255,255,0,0.5)";
+      // ctx.shadowBlur = 20;
+      // ctx.fillStyle = "#F00";
+      // ctx.fillRect(100, 100, 200, 200);
+
+      // 阴影 text
+      // ctx.shadowOffsetX = 2;
+      // ctx.shadowOffsetY = 5;
+      // ctx.shadowColor = "rgba(255,255,0,0.9)";
+      // ctx.shadowBlur = 10;
+      // const text = "文字渐变";
+      // ctx.fillStyle = "#F00";
+      // ctx.font = "bold 100px serif";
+      // ctx.fillText(text, 100, 100);
+
+      // 阴影 图片阴影  四个方向
+      const image = document.createElement("img");
+      image.src = "../6.图片操作/test.jpeg";
+      image.onload = () => {
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowColor = "rgba(255,255,0,0.9)";
+        ctx.shadowBlur = 30;
+        ctx.fillRect(100, 100, 200, 200);
+        ctx.drawImage(image, 100, 100, 200, 200);
+      };
+    </script>
+  </body>
+</html>
