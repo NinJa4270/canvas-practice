@@ -5,7 +5,7 @@
 ```js
 // 绘制方向 true 逆时针 false 顺时针
 ctx.beginPath();
-ctx.arc(x, y, 起始角度, 结束角度, 绘制方向);
+ctx.arc(x, y, r, 起始角度, 结束角度, 绘制方向);
 ctx.closePath();
 ```
 
@@ -14,7 +14,7 @@ ctx.closePath();
 ```js
 // 绘制方向 true 逆时针 false 顺时针
 ctx.beginPath();
-ctx.arc(x, y, 起始角度, 结束角度, 绘制方向);
+ctx.arc(x, y, r, 起始角度, 结束角度, 绘制方向);
 ctx.closePath();
 ctx.stroke();
 ```
@@ -24,7 +24,7 @@ ctx.stroke();
 ```js
 // 绘制方向 true 逆时针 false 顺时针
 ctx.beginPath();
-ctx.arc(x, y, 起始角度, 结束角度, 绘制方向);
+ctx.arc(x, y, r, 起始角度, 结束角度, 绘制方向);
 ctx.closePath();
 ctx.stroke();
 ```
@@ -34,7 +34,7 @@ ctx.stroke();
 ```js
 // 绘制方向 true 逆时针 false 顺时针
 ctx.beginPath();
-ctx.arc(x, y, 起始角度, 结束角度, 绘制方向);
+ctx.arc(x, y, r, 起始角度, 结束角度, 绘制方向);
 ctx.closePath();
 ctx.fill();
 ```
@@ -44,7 +44,7 @@ ctx.fill();
 ### 弧线 - arc
 
 ```js
-ctx.arc(x, y, 起始角度, 结束角度, 绘制方向);
+ctx.arc(x, y, r, 起始角度, 结束角度, 绘制方向);
 ```
 
 ### 弧线 - arcTo

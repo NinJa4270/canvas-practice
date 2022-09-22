@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const image = document.createElement("img");
+      image.src = "./test.jpeg";
+      image.onload = () => {
+        // drawImage - ctx.drawImage(image, dx, dy)
+        // ctx.drawImage(image, 0, 0);
+
+        // drawImage - ctx.drawImage(image, dx, dy, dw, dh)
+        // ctx.drawImage(image, 0, 0, 600, 600);
+        // ctx.drawImage(image, 0, 0, 200, 200);
+
+        // drawImage - ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+        // ctx.drawImage(image, 80, 20, 400, 400, 0, 0, 300, 300);
+
+        // 平铺 createPattern
+        // repeat
+        // const reapeatType = "repeat";
+        // repeat-x
+        // const reapeatType = "repeat-x";
+        // repeat-y
+        // const reapeatType = "repeat-y";
+        // no-repeat
+        // const reapeatType = "no-repeat";
+        // const pattern = ctx.createPattern(image, reapeatType);
+        // ctx.fillStyle = pattern;
+        // ctx.fillRect(0, 0, 600, 600);
+
+        // 切割图片 clip
+        // ctx.arc(300, 200, 200, 0, Math.PI * 2);
+        // ctx.rect(100, 100, 400, 200);
+        // ctx.clip();
+        // ctx.drawImage(image, 0, 0);
+
+        // 文字效果
+        // const text = "文字效果";
+        // ctx.font = "bold 100px serif";
+        // const pattern = ctx.createPattern(image, "no-repeat");
+        // ctx.fillStyle = pattern;
+        // ctx.fillText(text, 100, 100);
+
+        // 图片+图形
+        ctx.beginPath();
+        ctx.arc(300, 200, 200, 0, Math.PI * 2);
+        ctx.closePath();
+        const pattern = ctx.createPattern(image, "no-repeat");
+        ctx.fillStyle = pattern;
+        ctx.fill();
+      };
+    </script>
+  </body>
+</html>
