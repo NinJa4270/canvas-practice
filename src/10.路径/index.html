@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // 不使用 beginPath
+      // ctx.lineWidth = 10;
+      // ctx.moveTo(100, 100);
+      // ctx.strokeStyle = "red";
+      // ctx.lineTo(200, 100);
+      // ctx.strokeStyle = "blue";
+      // ctx.lineTo(300, 100);
+      // ctx.strokeStyle = "yellow";
+      // ctx.lineTo(400, 100);
+      // ctx.stroke();
+
+      // 使用 beginPath
+      // ctx.lineWidth = 10;
+      // ctx.beginPath();
+      // ctx.moveTo(100, 100);
+      // ctx.strokeStyle = "red";
+      // ctx.lineTo(200, 100);
+      // ctx.stroke();
+
+      // ctx.beginPath();
+      // ctx.moveTo(200, 100);
+      // ctx.strokeStyle = "blue";
+      // ctx.lineTo(300, 100);
+      // ctx.stroke();
+
+      // ctx.beginPath();
+      // ctx.moveTo(300, 100);
+      // ctx.strokeStyle = "yellow";
+      // ctx.lineTo(400, 100);
+      // ctx.stroke();
+
+      // 不使用closePath
+      // ctx.moveTo(100, 100);
+      // ctx.lineTo(200, 100);
+      // ctx.lineTo(200, 200);
+      // ctx.lineTo(100, 200);
+      // ctx.moveTo(300, 300);
+      // ctx.arc(300, 300, 100, 0, (-90 * Math.PI) / 180, true);
+      // ctx.stroke();
+
+      // 使用closePath
+      // ctx.moveTo(100, 100);
+      // ctx.lineTo(200, 100);
+      // ctx.lineTo(200, 200);
+      // ctx.lineTo(100, 200);
+      // ctx.closePath();
+      // ctx.moveTo(300, 300);
+      // ctx.arc(300, 300, 100, 0, (-90 * Math.PI) / 180, true);
+      // ctx.closePath();
+      // ctx.stroke();
+
+      // isPointInPath
+      ctx.moveTo(100, 100);
+      ctx.lineTo(200, 100);
+      ctx.lineTo(200, 200);
+      ctx.lineTo(100, 200);
+      ctx.closePath();
+      ctx.stroke();
+
+      console.log(ctx.isPointInPath(150, 200)); // true
+      console.log(ctx.isPointInPath(150, 150)); // true
+      console.log(ctx.isPointInPath(200, 200)); // true
+      console.log(ctx.isPointInPath(210, 200)); // fakse
+    </script>
+  </body>
+</html>
