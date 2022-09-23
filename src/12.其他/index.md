@@ -70,4 +70,4 @@ luminosity
 ctx.globalCompositeOperation = "属性值";
 ```
 
-##
+## stroke/fill
