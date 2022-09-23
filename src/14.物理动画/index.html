@@ -161,31 +161,114 @@
 
       // 波形运动 y轴运动
 
-      const ball = new Ball(0, 300);
-      const range = 200;
-      const h = canvas.height / 2;
-      let angle = 0;
-      const drawSinXLine = () => {
-        ctx.beginPath();
-        ctx.moveTo(0, h);
-        for (let x = 0; x < canvas.width; x++) {
-          const angle = (x * Math.PI) / 180;
-          const y = h + Math.sin(angle) * range;
-          ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      };
-      drawSinXLine();
+      // const ball = new Ball(0, 300);
+      // const range = 200;
+      // const h = canvas.height / 2;
+      // const drawSinXLine = () => {
+      //   ctx.beginPath();
+      //   ctx.moveTo(0, h);
+      //   for (let x = 0; x < canvas.width; x++) {
+      //     const angle = (x * Math.PI) / 180;
+      //     const y = h + Math.sin(angle) * range;
+      //     ctx.lineTo(x, y);
+      //   }
+      //   ctx.stroke();
+      // };
 
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   drawSinXLine();
+      //   ball.x += 1;
+      //   if (ball.x >= 600) ball.x = 0;
+      //   const angle = (ball.x * Math.PI) / 180;
+      //   ball.y = canvas.width / 2 + Math.sin(angle) * range;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // let angle = 0;
+      // const range = 200;
+      // const ball = new Ball(300, 300);
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.y = canvas.height / 2 + Math.sin(angle) * range;
+      //   ball.fill();
+      //   angle += 0.05;
+      // };
+      // frame();
+
+      // 波形运动 x轴运动
+      // const ball = new Ball(300, 0);
+      // const range = 200;
+      // const w = canvas.width / 2;
+      // const drawSinYLine = () => {
+      //   ctx.beginPath();
+      //   ctx.moveTo(300, 0);
+      //   for (let y = 0; y < canvas.height; y++) {
+      //     const angle = (y * Math.PI) / 180;
+      //     const x = w + Math.sin(angle) * range;
+      //     ctx.lineTo(x, y);
+      //   }
+      //   ctx.stroke();
+      // };
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   drawSinYLine();
+      //   ball.y += 1;
+      //   if (ball.y >= 600) ball.x = 0;
+      //   const angle = (ball.y * Math.PI) / 180;
+      //   ball.x = canvas.width / 2 + Math.sin(angle) * range;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // let angle = 0;
+      // const range = 200;
+      // const ball = new Ball(300, 300);
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.x = canvas.width / 2 + Math.sin(angle) * range;
+      //   ball.fill();
+      //   angle += 0.05;
+      // };
+      // frame();
+
+      // 缩放属性
+
+      class ScaleBall {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.scaleX = 1;
+          this.scaleY = 1;
+        }
+        fill() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.scale(this.scaleX, this.scaleY);
+          ctx.fillStyle = "red";
+          ctx.beginPath();
+          ctx.arc(0, 0, 10, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      let angle = 0;
+      const range = 1;
+      const ball = new ScaleBall(300, 300);
       const frame = () => {
         window.requestAnimationFrame(frame);
         ctx.clearRect(0, 0, 600, 600);
-        drawSinXLine();
-        ball.x += 1;
-        if (ball.x >= 600) ball.x = 0;
-        const angle = (ball.x * Math.PI) / 180;
-        ball.y = canvas.width / 2 + Math.sin(angle) * range;
+        ball.scaleX = 1 + Math.sin(angle) * range;
+        ball.scaleY = 1 + Math.sin(angle) * range;
         ball.fill();
+        angle += 0.1;
       };
       frame();
     </script>

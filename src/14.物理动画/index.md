@@ -176,6 +176,90 @@ frame();
 
 ### 波形运动
 
+#### x 轴运动
+
+```js
+x = centerX + Math.sin(angle) * range;
+angle += speed;
+```
+
+```js
+let angle = 0;
+const range = 200;
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball.x = canvas.width / 2 + Math.sin(angle) * range;
+  ball.fill();
+  angle += 0.05;
+};
+frame();
+```
+
+#### y 轴运动
+
+```js
+y = centerY + Math.sin(angle) * range;
+angle += speed;
+```
+
+```js
+let angle = 0;
+const range = 200;
+const ball = new Ball(300, 300);
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball.y = canvas.height / 2 + Math.sin(angle) * range;
+  ball.fill();
+  angle += 0.05;
+};
+frame();
+```
+
+#### 缩放运动
+
+```js
+scaleX = 1 + Math.sin(angle) * range;
+scaleY = 1 + Math.sin(angle) * range;
+angle += speed;
+```
+
+```js
+class ScaleBall {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.scaleX = 1;
+    this.scaleY = 1;
+  }
+  fill() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.scale(this.scaleX, this.scaleY);
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(0, 0, 10, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+let angle = 0;
+const range = 1;
+const ball = new ScaleBall(300, 300);
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball.scaleX = 1 + Math.sin(angle) * range;
+  ball.scaleY = 1 + Math.sin(angle) * range;
+  ball.fill();
+  angle += 0.1;
+};
+frame();
+```
+
 ## 匀速运动
 
 ## 加速运动
