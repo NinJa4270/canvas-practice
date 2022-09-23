@@ -92,21 +92,21 @@
       // console.log(distance);
 
       // 球
-      // class Ball {
-      //   constructor(x, y) {
-      //     this.x = x;
-      //     this.y = y;
-      //   }
-      //   fill() {
-      //     ctx.save();
-      //     ctx.fillStyle = "red";
-      //     ctx.beginPath();
-      //     ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
-      //     ctx.closePath();
-      //     ctx.fill();
-      //     ctx.restore();
-      //   }
-      // }
+      class Ball {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = "red";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
       // const ball = new Ball(500, 300);
 
       // 正圆
@@ -158,6 +158,36 @@
       //   angle += 0.01;
       // };
       // frame();
+
+      // 波形运动 y轴运动
+
+      const ball = new Ball(0, 300);
+      const range = 200;
+      const h = canvas.height / 2;
+      let angle = 0;
+      const drawSinXLine = () => {
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        for (let x = 0; x < canvas.width; x++) {
+          const angle = (x * Math.PI) / 180;
+          const y = h + Math.sin(angle) * range;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      };
+      drawSinXLine();
+
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+        drawSinXLine();
+        ball.x += 1;
+        if (ball.x >= 600) ball.x = 0;
+        const angle = (ball.x * Math.PI) / 180;
+        ball.y = canvas.width / 2 + Math.sin(angle) * range;
+        ball.fill();
+      };
+      frame();
     </script>
   </body>
 </html>
