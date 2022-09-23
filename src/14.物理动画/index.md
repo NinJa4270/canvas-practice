@@ -321,7 +321,28 @@ frame();
 ## 加速运动
 
 ```js
+const ball1 = new Ball(0, 0);
+const a = 0.2;
+const getaV = (angle, a) => {
+  return {
+    ax: a * Math.cos((angle * Math.PI) / 180),
+    ay: a * Math.sin((angle * Math.PI) / 180),
+  };
+};
+const { ax, ay } = getaV(45, a);
+let vx = 0,
+  vy = 0;
 
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball1.x += vx;
+  ball1.y += vy;
+  ball1.fill();
+  vx += ax;
+  vy += ay;
+};
+frame();
 ```
 
 ## 重力
