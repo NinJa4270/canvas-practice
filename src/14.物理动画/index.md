@@ -262,7 +262,67 @@ frame();
 
 ## 匀速运动
 
+```js
+const ball1 = new Ball(0, 0);
+const ball2 = new Ball(0, 0, "yellow");
+const ball3 = new Ball(0, 0, "green");
+const speed = 3;
+const getV = (angle, speed) => {
+  return {
+    vx: speed * Math.cos((angle * Math.PI) / 180),
+    vy: speed * Math.sin((angle * Math.PI) / 180),
+  };
+};
+const ball1V = getV(30, speed);
+const ball2V = getV(45, speed);
+const ball3V = getV(60, speed);
+
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  // 30
+  ball1.x += ball1V.vx;
+  ball1.y += ball1V.vy;
+  // 45
+  ball2.x += ball2V.vx;
+  ball2.y += ball2V.vy;
+  // 60
+  ball3.x += ball3V.vx;
+  ball3.y += ball3V.vy;
+
+  ball1.fill();
+  ball2.fill();
+  ball3.fill();
+};
+frame();
+```
+
+```js
+const arrow = new Arrow(300, 300);
+const mouse = getMouse(canvas);
+let angle = 0;
+const speed = 1.5;
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  const dx = mouse.x - canvas.width / 2;
+  const dy = mouse.y - canvas.height / 2;
+  angle = Math.atan2(dy, dx);
+  const vx = Math.cos(angle) * speed;
+  const vy = Math.sin(angle) * speed;
+  arrow.x += vx;
+  arrow.y += vy;
+  arrow.angle = angle;
+  arrow.fill(ctx);
+};
+frame();
+```
+
 ## 加速运动
+
+```js
+
+```
 
 ## 重力
 
