@@ -347,4 +347,51 @@ frame();
 
 ## 重力
 
+```js
+vx += gravity;
+object.y += vy;
+```
+
+```js
+const ball1 = new Ball(0, 300);
+let vx = 4;
+let vy = -5;
+const gravity = 0.2;
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball1.x += vx;
+  ball1.y += vy;
+  ball1.fill();
+  vy += gravity;
+};
+frame();
+```
+
+### 小球落地效果
+
+```js
+// 小球落地效果
+
+const ball = new Ball(300, 0);
+// 初始速度0 重力加速度0.2 反弹系数-0.8
+let vy = 0;
+const gravity = 0.2;
+const bounce = -0.8;
+
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball.y += vy;
+  // 10 球的半径
+  if (ball.y > canvas.height - 10) {
+    ball.y = canvas.height - 10;
+    vy = vy * bounce;
+  }
+  ball.fill();
+  vy += gravity;
+};
+frame();
+```
+
 ## 摩擦力

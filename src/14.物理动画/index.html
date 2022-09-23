@@ -350,28 +350,66 @@
 
       // 加速运动
       // 加速
-      const ball1 = new Ball(0, 0);
-      const a = 0.2;
-      const getaV = (angle, a) => {
-        return {
-          ax: a * Math.cos((angle * Math.PI) / 180),
-          ay: a * Math.sin((angle * Math.PI) / 180),
-        };
-      };
-      const { ax, ay } = getaV(45, a);
-      let vx = 0,
-        vy = 0;
+      // const ball1 = new Ball(0, 0);
+      // const a = 0.2;
+      // const getaV = (angle, a) => {
+      //   return {
+      //     ax: a * Math.cos((angle * Math.PI) / 180),
+      //     ay: a * Math.sin((angle * Math.PI) / 180),
+      //   };
+      // };
+      // const { ax, ay } = getaV(45, a);
+      // let vx = 0,
+      //   vy = 0;
 
-      const frame = () => {
-        window.requestAnimationFrame(frame);
-        ctx.clearRect(0, 0, 600, 600);
-        ball1.x += vx;
-        ball1.y += vy;
-        ball1.fill();
-        vx += ax;
-        vy += ay;
-      };
-      frame();
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball1.x += vx;
+      //   ball1.y += vy;
+      //   ball1.fill();
+      //   vx += ax;
+      //   vy += ay;
+      // };
+      // frame();
+
+      // 重力
+      // const ball1 = new Ball(0, 300);
+      // let vx = 4;
+      // let vy = -5;
+      // const gravity = 0.2;
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball1.x += vx;
+      //   ball1.y += vy;
+      //   ball1.fill();
+      //   vy += gravity;
+      // };
+      // frame();
+
+      // 小球落地效果
+
+      // const ball = new Ball(300, 0);
+      // // 初始速度0 重力加速度0.2 反弹系数-0.8
+      // let vy = 0;
+      // const gravity = 0.2;
+      // const bounce = -0.8;
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.y += vy;
+      //   // 10 球的半径
+      //   if (ball.y > canvas.height - 10) {
+      //     ball.y = canvas.height - 10;
+      //     vy = vy * bounce;
+      //   }
+      //   ball.fill();
+      //   vy += gravity;
+      // };
+      // frame();
+      
     </script>
   </body>
 </html>
