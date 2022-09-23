@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <div id="text"></div>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const text = document.getElementById("text");
+      const ctx = canvas.getContext("2d");
+
+      class Ball {
+        constructor(x, y, radius = 10, color = "red") {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+        getRect() {
+          return {
+            x: this.x - this.radius,
+            y: this.y - this.radius,
+            width: this.radius * 2,
+            height: this.radius * 2,
+          };
+        }
+      }
+      const getRandomColor = () => {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r},${g},${b},1)`;
+      };
+
+      const getMouse = (element) => {
+        const mouse = { x: 0, y: 0 };
+        element.addEventListener("mousemove", function (e) {
+          e = e || window.event;
+          let { pageX: x, pageY: y } = e;
+          x -= element.offsetLeft;
+          y -= element.offsetTop;
+          mouse.x = x;
+          mouse.y = y;
+        });
+        return mouse;
+      };
+
+      // 外接矩形
+      const checkRect = (rectA, rectB) => {
+        return !(
+          rectA.x + rectA.width < rectB.x ||
+          rectB.x + rectB.width < rectA.x ||
+          rectA.y + rectA.height < rectB.y ||
+          rectB.y + rectB.height < rectA.y
+        );
+      };
+
+      // const ballA = new Ball(300, 300);
+      // const rectA = ballA.getRect();
+      // // const mouse = getMouse(canvas);
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ballA.fill();
+
+      //   ctx.strokeRect(rectA.x, rectA.y, rectA.width, rectA.height);
+
+      //   const ballB = new Ball(300, 320);
+      //   const rectB = ballB.getRect();
+
+      //   ballB.fill();
+      //   ctx.strokeRect(rectB.x, rectB.y, rectB.width, rectB.height);
+
+      //   if (checkRect(rectA, rectB)) {
+      //     text.innerText = "撞上了";
+      //   } else {
+      //     text.innerText = "没撞上";
+      //   }
+      // };
+      // frame();
+
+      // 俄罗斯方块
+      class Box {
+        constructor(x, y, w, h, color = "red") {
+          this.x = x;
+          this.y = y;
+          this.width = w;
+          this.height = h;
+          this.color = color;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.rect(this.x, this.y, this.width, this.height);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      const getKey = () => {
+        const key = {
+          direction: "",
+        };
+        window.addEventListener("keydown", function (e) {
+          switch (e.keyCode) {
+            case 38:
+            case 87:
+              key.direction = "up";
+              break;
+            case 39:
+            case 68:
+              key.direction = "right";
+              break;
+            case 40:
+            case 83:
+              key.direction = "down";
+              break;
+            case 37:
+            case 65:
+              key.direction = "left";
+              break;
+            default:
+              key.direction = "";
+              break;
+          }
+        });
+        return key;
+      };
+
+      const createBox = () => {
+        const x = Math.random() * canvas.width;
+        const y = 0;
+        const width = Math.random() * 40 + 10;
+        const height = Math.random() * 40 + 10;
+        const color = getRandomColor();
+        const box = new Box(x, y, width, height, color);
+        boxes.push(box);
+        return box;
+      };
+
+      const boxes = [];
+      let activeBox = createBox();
+      const vy = 2;
+
+      const key = getKey();
+
+      window.addEventListener("keydown", function (e) {
+        ctx.clearRect(0, 0, 600, 600);
+        switch (key.direction) {
+          case "right":
+            activeBox.x += 10;
+            break;
+          case "down":
+            activeBox.y += 5;
+            break;
+          case "left":
+            activeBox.x -= 10;
+            break;
+          default:
+            break;
+        }
+      });
+
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+        activeBox.y += vy;
+
+        if (activeBox.y > canvas.height - activeBox.height) {
+          activeBox.y = canvas.height - activeBox.height;
+          activeBox = createBox();
+        }
+
+        boxes.forEach((box) => {
+          if (activeBox !== box && checkRect(activeBox, box)) {
+            activeBox.y = box.y - activeBox.height;
+            activeBox = createBox();
+          }
+          box.fill();
+        });
+      };
+      frame();
+    </script>
+  </body>
+</html>
