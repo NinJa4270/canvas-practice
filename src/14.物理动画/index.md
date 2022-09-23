@@ -399,5 +399,16 @@ frame();
 与加速运动区别 摩擦力不改变方向 并不能反方向运动 将速度降低至 0
 
 ```js
+const ball = new Ball(0, 200);
+let vx = 8;
+const friction = 0.98;
 
+const frame = () => {
+  window.requestAnimationFrame(frame);
+  ctx.clearRect(0, 0, 600, 600);
+  ball.x += vx;
+  ball.fill();
+  vx *= friction;
+};
+frame();
 ```

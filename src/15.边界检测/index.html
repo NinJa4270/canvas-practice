@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      class Ball {
+        constructor(x, y, radius = 10, color = "red") {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+      const getKey = () => {
+        const key = {
+          direction: "",
+        };
+        window.addEventListener("keydown", function (e) {
+          switch (e.keyCode) {
+            case 38:
+            case 87:
+              key.direction = "up";
+              break;
+            case 39:
+            case 68:
+              key.direction = "right";
+              break;
+            case 40:
+            case 83:
+              key.direction = "down";
+              break;
+            case 37:
+            case 65:
+              key.direction = "left";
+              break;
+            default:
+              key.direction = "";
+              break;
+          }
+        });
+        return key;
+      };
+
+      // 边界限制
+      // const ball = new Ball(300, 300);
+      // const key = getKey();
+      // window.addEventListener("keydown", function (e) {
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   switch (key.direction) {
+      //     case "up":
+      //       ball.y -= 5;
+      //       checkBorder(ball);
+      //       ball.fill();
+      //       break;
+      //     case "right":
+      //       ball.x += 5;
+      //       checkBorder(ball);
+      //       ball.fill();
+      //       break;
+      //     case "down":
+      //       ball.y += 5;
+      //       checkBorder(ball);
+      //       ball.fill();
+      //       break;
+      //     case "left":
+      //       ball.x -= 5;
+      //       checkBorder(ball);
+      //       ball.fill();
+      //       break;
+      //     default:
+      //       ball.fill();
+      //       break;
+      //   }
+      // });
+
+      // const checkBorder = (ball) => {
+      //   if (ball.x < ball.radius) {
+      //     // 左侧边界
+      //     ball.x = ball.radius;
+      //   } elyse if (ball.x > canvas.width - ball.radius) {
+      //     // 右侧边界
+      //     ball.x = canvas.width - ball.radius;
+      //   }
+
+      //   if (ball.y < ball.radius) {
+      //     // 上侧边界
+      //     ball.y = ball.radius;
+      //   } else if (ball.y > canvas.height - ball.radius) {
+      //     // 下侧边界
+      //     ball.y = canvas.height - ball.radius;
+      //   }
+      // };
+
+      // 边界环绕
+      // const ball = new Ball(0, 300);
+      // const vx = 2;
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.x += vx;
+      //   if (ball.x > canvas.width + ball.radius) {
+      //     // 右侧边界
+      //     ball.x = -ball.radius;
+      //   }
+
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 边界生成
+
+      const getRandomColor = () => {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r},${g},${b},1)`;
+      };
+
+      // const balls = [];
+      // const n = 200;
+      // const gravity = 0.15;
+
+      // for (let i = 0; i < 50; i++) {
+      //   const ball = new Ball(300, 500, Math.random() * 20, getRandomColor());
+      //   ball.vx = (Math.random() * 2 - 1) * 3;
+      //   ball.vy = (Math.random() * 2 - 1) * 10;
+      //   balls.push(ball);
+      // }
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   balls.forEach((ball) => {
+      //     if (
+      //       (ball.x < -ball.radius) |
+      //       (ball.x > canvas.width + ball.radius) |
+      //       (ball.y < -ball.radius) |
+      //       (ball.y > canvas.height + ball.radius)
+      //     ) {
+      //       ball.x = 300;
+      //       ball.y = 500;
+      //       ball.vx = (Math.random() * 2 - 1) * 3;
+      //       ball.vy = (Math.random() * 2 - 1) * 10;
+      //     }
+      //     ball.fill();
+      //     ball.x += ball.vx;
+      //     ball.y += ball.vy;
+      //     ball.vy += gravity
+      //   });
+      // };
+      // frame();
+
+      // 边界反弹
+      // const ball = new Ball(0, 300);
+      // let vx = (Math.random() * 2 - 1) * 3;
+      // let vy = (Math.random() * 2 - 1) * 3;
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.x += vx;
+      //   ball.y += vy;
+
+      //   if (ball.x < ball.radius) {
+      //     ball.x = ball.radius;
+      //     vx = -vx;
+      //   } else if (ball.x > canvas.width - ball.radius) {
+      //     ball.x = canvas.width - ball.radius;
+      //     vx = -vx;
+      //   }
+
+      //   if (ball.y < ball.radius) {
+      //     ball.y = ball.radius;
+      //     vy = -vy;
+      //   } else if (ball.y > canvas.height - ball.radius) {
+      //     ball.y = canvas.height - ball.radius;
+      //     vy = -vy;
+      //   }
+
+      //   ball.fill();
+      // };
+      // frame();
+      // 多球
+
+      const balls = [];
+      const n = 200;
+      for (let i = 0; i < 50; i++) {
+        const ball = new Ball(300, 500, Math.random() * 20, getRandomColor());
+        ball.vx = (Math.random() * 2 - 1) * 3;
+        ball.vy = (Math.random() * 2 - 1) * 3;
+        balls.push(ball);
+      }
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+        balls.forEach((ball) => {
+          ball.x += ball.vx;
+          ball.y += ball.vy;
+
+          if (ball.x < ball.radius) {
+            ball.x = ball.radius;
+            ball.vx = -ball.vx;
+          } else if (ball.x > canvas.width - ball.radius) {
+            ball.x = canvas.width - ball.radius;
+            ball.vx = -ball.vx;
+          }
+
+          if (ball.y < ball.radius) {
+            ball.y = ball.radius;
+            ball.vy = -ball.vy;
+          } else if (ball.y > canvas.height - ball.radius) {
+            ball.y = canvas.height - ball.radius;
+            ball.vy = -ball.vy;
+          }
+
+          ball.fill();
+        });
+      };
+      frame();
+    </script>
+  </body>
+</html>
