@@ -409,7 +409,41 @@
       //   vy += gravity;
       // };
       // frame();
-      
+
+      // const ball = new Ball(0, 300);
+      // let vx = 3;
+      // let vy = -6;
+      // const gravity = 0.2;
+      // const bounce = -0.7;
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   // 10 球的半径
+      //   if (ball.y > canvas.height - 10) {
+      //     ball.y = canvas.height - 10;
+      //     vy = vy * bounce;
+      //   }
+      //   ball.fill();
+      //   vy += gravity;
+      // };
+      // frame();
+
+      // 摩擦力
+      const ball = new Ball(0, 200);
+      let vx = 8;
+      const friction = 0.98;
+
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+        ball.x += vx;
+        ball.fill();
+        vx *= friction;
+      };
+      frame();
     </script>
   </body>
 </html>
