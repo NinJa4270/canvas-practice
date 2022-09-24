@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <div id="text"></div>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const text = document.getElementById("text");
+
+      class Ball {
+        constructor(x, y, radius = 10, color = "red") {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          console.log();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+        getRect() {
+          return {
+            x: this.x - this.radius,
+            y: this.y - this.radius,
+            width: this.radius * 2,
+            height: this.radius * 2,
+          };
+        }
+        checkMouse(mouse) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < this.radius) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
+      const getMouse = (element) => {
+        const mouse = { x: 0, y: 0 };
+        element.addEventListener("mousemove", function (e) {
+          e = e || window.event;
+          let { pageX: x, pageY: y } = e;
+          x -= element.offsetLeft;
+          y -= element.offsetTop;
+          mouse.x = x;
+          mouse.y = y;
+        });
+        return mouse;
+      };
+      // 缓动动画
+
+      // const ball = new Ball(20, 20, 20);
+
+      // const tragetX = 500;
+      // const tragetY = 500;
+      // const easing = 0.05;
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   const vx = (tragetX - ball.x) * easing;
+      //   const vy = (tragetY - ball.y) * easing;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 小球追随鼠标
+
+      // const ball = new Ball(300, 300, 20);
+      // const easing = 0.05;
+      // const mouse = getMouse(canvas);
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   const vx = (mouse.x - ball.x) * easing;
+      //   const vy = (mouse.y - ball.y) * easing;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 多个小球追随鼠标
+      // const ball1 = new Ball(300, 300, 20);
+      // const ball2 = new Ball(300, 300, 10, "#FF0");
+      // const ball3 = new Ball(300, 300, 5, "#EE0FF0");
+      // const easing = 0.05;
+      // const mouse = getMouse(canvas);
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   // 1
+      //   const vx1 = (mouse.x - ball1.x) * easing;
+      //   const vy1 = (mouse.y - ball1.y) * easing;
+      //   ball1.x += vx1;
+      //   ball1.y += vy1;
+      //   ball1.fill();
+
+      //   // 2
+      //   const vx2 = (ball1.x - ball2.x) * easing;
+      //   const vy2 = (ball1.y - ball2.y) * easing;
+      //   ball2.x += vx2;
+      //   ball2.y += vy2;
+      //   ball2.fill();
+
+      //   // 3
+      //   const vx3 = (ball2.x - ball3.x) * easing;
+      //   const vy3 = (ball2.y - ball3.y) * easing;
+      //   ball3.x += vx3;
+      //   ball3.y += vy3;
+      //   ball3.fill();
+      // };
+      // frame();
+
+      // 缓动动画应用 半径/透明度/颜色
+      // let opacity = 1;
+      // const color = `rgba(255,255,0,${opacity})`;
+      // const ball = new Ball(300, 300, 20, color);
+      // const targetRadius = 100;
+      // const targetOpacity = 0.0;
+      // const easing = 0.05;
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   const vRadius = (targetRadius - ball.radius) * easing;
+      //   const vOpacity = (targetOpacity - opacity) * easing;
+      //   opacity += vOpacity;
+
+      //   ball.radius += vRadius;
+      //   ball.color = `rgba(255,255,0,${opacity})`;
+
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 弹性动画
+
+      // const ball = new Ball(10, 300, 20);
+      // let vx = 0;
+      // const tragetX = 400;
+      // const spring = 0.02;
+      // const friction = 0.95;
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   const ax = (tragetX - ball.x) * spring;
+      //   vx += ax;
+      //   vx *= friction;
+      //   ball.x += vx;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 跟随鼠标弹性运动
+      // const ball = new Ball(10, 300, 20);
+      // const spring = 0.02;
+      // const friction = 0.95;
+      // let vx = 0,
+      //   vy = 0;
+      // const mouse = getMouse(canvas);
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   const ax = (mouse.x - ball.x) * spring;
+      //   const ay = (mouse.y - ball.y) * spring;
+      //   vx += ax;
+      //   vy += ay;
+      //   vx *= friction;
+      //   vy *= friction;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill();
+      // };
+      // frame();
+
+      // 弹性运动应用 球绳运动
+      const ball = new Ball(10, 300, 20);
+      const spring = 0.02;
+      const friction = 0.95;
+      let vx = 0,
+        vy = 0;
+      const gravity = 1;
+      const mouse = getMouse(canvas);
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+        const ax = (mouse.x - ball.x) * spring;
+        const ay = (mouse.y - ball.y) * spring;
+        vx += ax;
+        vy += ay;
+        vy += gravity;
+        vx *= friction;
+        vy *= friction;
+        ball.x += vx;
+        ball.y += vy;
+        ball.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(ball.x, ball.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+        ctx.closePath();
+      };
+      frame();
+    </script>
+  </body>
+</html>
