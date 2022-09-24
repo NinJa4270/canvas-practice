@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+      #canvas {
+        border: 2px dotted gray;
+      }
+    </style>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <div id="text"></div>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const text = document.getElementById("text");
+
+      class Ball {
+        constructor(x, y, radius = 10, color = "red") {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+        }
+        fill() {
+          ctx.save();
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          console.log();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+        getRect() {
+          return {
+            x: this.x - this.radius,
+            y: this.y - this.radius,
+            width: this.radius * 2,
+            height: this.radius * 2,
+          };
+        }
+        checkMouse(mouse) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < this.radius) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+      const getMouse = (element) => {
+        const mouse = { x: 0, y: 0 };
+        element.addEventListener("mousemove", function (e) {
+          e = e || window.event;
+          let { pageX: x, pageY: y } = e;
+          x -= element.offsetLeft;
+          y -= element.offsetTop;
+          mouse.x = x;
+          mouse.y = y;
+        });
+        return mouse;
+      };
+
+      const checkBorder = (ball) => {
+        if (ball.x < ball.radius) {
+          // 左侧边界
+          ball.x = ball.radius;
+          ball.vx = -ball.vx;
+        } else if (ball.x > canvas.width - ball.radius) {
+          // 右侧边界
+          ball.x = canvas.width - ball.radius;
+          ball.vx = -ball.vx;
+        }
+
+        if (ball.y < ball.radius) {
+          // 上侧边界
+          ball.y = ball.radius;
+          ball.vy = -ball.vy;
+        } else if (ball.y > canvas.height - ball.radius) {
+          // 下侧边界
+          ball.y = canvas.height - ball.radius;
+          ball.vy = -ball.vy;
+        }
+      };
+
+      const mouse = getMouse(canvas);
+
+      // canvas.addEventListener("mousemove", function () {
+      //   if (ball.checkMouse(mouse)) {
+      //     text.innerText = "移入小球";
+      //   } else {
+      //     text.innerText = "移出小球";
+      //   }
+      // });
+
+      // const ball = new Ball(300, 300, 80);
+      // ball.fill();
+
+      // 移动物体
+      // const ball = new Ball(300, 300, 20);
+      // ball.vx = 2;
+      // ball.vy = 3;
+      // let isMouseDown = false;
+
+      // canvas.addEventListener("mousemove", function () {
+      //   if (ball.checkMouse(mouse)) {
+      //     isMouseDown = true;
+      //   } else {
+      //     isMouseDown = false;
+      //   }
+      // });
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   checkBorder(ball);
+      //   ball.fill();
+      //   if (!isMouseDown) {
+      //     ball.x += ball.vx;
+      //     ball.y += ball.vy;
+      //   }
+      // };
+      // frame();
+
+      // 拖拽物体
+
+      // const ball = new Ball(300, 300, 20);
+      // let dx = 0,
+      //   dy = 0;
+      // canvas.addEventListener("mousedown", function () {
+      //   if (ball.checkMouse(mouse)) {
+      //     dx = mouse.x - ball.x;
+      //     dy = mouse.y - ball.y;
+      //     document.addEventListener("mousemove", onMouseMove, false);
+      //     document.addEventListener("mouseup", onMouseUp, false);
+      //   }
+      // });
+
+      // function onMouseMove() {
+      //   ball.x = mouse.x - dx;
+      //   ball.y = mouse.y - dy;
+
+      //   // 边界检测
+      //   if (ball.x < ball.radius) {
+      //     // 左侧边界
+      //     ball.x = ball.radius;
+      //   } else if (ball.x > canvas.width - ball.radius) {
+      //     // 右侧边界
+      //     ball.x = canvas.width - ball.radius;
+      //   }
+
+      //   if (ball.y < ball.radius) {
+      //     // 上侧边界
+      //     ball.y = ball.radius;
+      //   } else if (ball.y > canvas.height - ball.radius) {
+      //     // 下侧边界
+      //     ball.y = canvas.height - ball.radius;
+      //   }
+      // }
+      // function onMouseUp() {
+      //   document.removeEventListener("mouseup", onMouseUp, false);
+      //   document.removeEventListener("mousemove", onMouseMove, false);
+      // }
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   ball.fill();
+      // };
+
+      // frame();
+
+      // 抛掷物体
+
+      const ball = new Ball(300, 300, 20);
+      let isMouseDown = false;
+      let dx = 0,
+        dy = 0,
+        oldX = 0,
+        oldY = 0,
+        vx = 0,
+        vy = 0;
+      const gravity = 1.5; // 重力
+      const bounce = -0.8; // 反弹消耗
+
+      canvas.addEventListener("mousedown", function () {
+        if (ball.checkMouse(mouse)) {
+          isMouseDown = true;
+          oldX = ball.x;
+          oldY = ball.y;
+          dx = mouse.x - ball.x;
+          dy = mouse.y - ball.y;
+          document.addEventListener("mousemove", onMouseMove, false);
+          document.addEventListener("mouseup", onMouseUp, false);
+        }
+      });
+
+      function onMouseMove() {
+        ball.x = mouse.x - dx;
+        ball.y = mouse.y - dy;
+
+        // 边界检测
+        if (ball.x < ball.radius) {
+          // 左侧边界
+          ball.x = ball.radius;
+        } else if (ball.x > canvas.width - ball.radius) {
+          // 右侧边界
+          ball.x = canvas.width - ball.radius;
+        }
+
+        if (ball.y < ball.radius) {
+          // 上侧边界
+          ball.y = ball.radius;
+        } else if (ball.y > canvas.height - ball.radius) {
+          // 下侧边界
+          ball.y = canvas.height - ball.radius;
+        }
+      }
+      function onMouseUp() {
+        isMouseDown = false;
+        document.removeEventListener("mouseup", onMouseUp, false);
+        document.removeEventListener("mousemove", onMouseMove, false);
+      }
+      const frame = () => {
+        window.requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, 600, 600);
+
+        if (isMouseDown) {
+          vx = ball.x - oldX;
+          vy = ball.y - oldY;
+
+          oldX = ball.x;
+          oldY = ball.y;
+        } else {
+          vy += gravity;
+          ball.x += vx;
+          ball.y += vy;
+          // 边界检测
+          if (ball.x < ball.radius) {
+            // 左侧边界
+            ball.x = ball.radius;
+            vx = vx * bounce;
+          } else if (ball.x > canvas.width - ball.radius) {
+            // 右侧边界
+            ball.x = canvas.width - ball.radius;
+            vx = vx * bounce;
+          }
+          if (ball.y < ball.radius) {
+            // 上侧边界
+            ball.y = ball.radius;
+            vy = vy * bounce;
+          } else if (ball.y > canvas.height - ball.radius) {
+            // 下侧边界
+            ball.y = canvas.height - ball.radius;
+            vy = vy * bounce;
+          }
+        }
+        ball.fill();
+      };
+      frame();
+    </script>
+  </body>
+</html>
