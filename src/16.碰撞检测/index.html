@@ -41,6 +41,7 @@
           ctx.save();
           ctx.fillStyle = this.color;
           ctx.beginPath();
+          console.log();
           ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
           ctx.closePath();
           ctx.fill();
@@ -110,106 +111,225 @@
       // frame();
 
       // 俄罗斯方块
-      class Box {
-        constructor(x, y, w, h, color = "red") {
-          this.x = x;
-          this.y = y;
-          this.width = w;
-          this.height = h;
-          this.color = color;
+      // class Box {
+      //   constructor(x, y, w, h, color = "red") {
+      //     this.x = x;
+      //     this.y = y;
+      //     this.width = w;
+      //     this.height = h;
+      //     this.color = color;
+      //   }
+      //   fill() {
+      //     ctx.save();
+      //     ctx.fillStyle = this.color;
+      //     ctx.beginPath();
+      //     ctx.rect(this.x, this.y, this.width, this.height);
+      //     ctx.closePath();
+      //     ctx.fill();
+      //     ctx.restore();
+      //   }
+      // }
+
+      // const getKey = () => {
+      //   const key = {
+      //     direction: "",
+      //   };
+      //   window.addEventListener("keydown", function (e) {
+      //     switch (e.keyCode) {
+      //       case 38:
+      //       case 87:
+      //         key.direction = "up";
+      //         break;
+      //       case 39:
+      //       case 68:
+      //         key.direction = "right";
+      //         break;
+      //       case 40:
+      //       case 83:
+      //         key.direction = "down";
+      //         break;
+      //       case 37:
+      //       case 65:
+      //         key.direction = "left";
+      //         break;
+      //       default:
+      //         key.direction = "";
+      //         break;
+      //     }
+      //   });
+      //   return key;
+      // };
+
+      // const createBox = () => {
+      //   const x = Math.random() * canvas.width;
+      //   const y = 0;
+      //   const width = Math.random() * 40 + 10;
+      //   const height = Math.random() * 40 + 10;
+      //   const color = getRandomColor();
+      //   const box = new Box(x, y, width, height, color);
+      //   boxes.push(box);
+      //   return box;
+      // };
+
+      // const boxes = [];
+      // let activeBox = createBox();
+      // const vy = 2;
+
+      // const key = getKey();
+
+      // window.addEventListener("keydown", function (e) {
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   switch (key.direction) {
+      //     case "right":
+      //       activeBox.x += 10;
+      //       break;
+      //     case "down":
+      //       activeBox.y += 5;
+      //       break;
+      //     case "left":
+      //       activeBox.x -= 10;
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // });
+
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   activeBox.y += vy;
+
+      //   if (activeBox.y > canvas.height - activeBox.height) {
+      //     activeBox.y = canvas.height - activeBox.height;
+      //     activeBox = createBox();
+      //   }
+
+      //   boxes.forEach((box) => {
+      //     if (activeBox !== box && checkRect(activeBox, box)) {
+      //       activeBox.y = box.y - activeBox.height;
+      //       activeBox = createBox();
+      //     }
+      //     box.fill();
+      //   });
+      // };
+      // frame();
+
+      // 外接圆
+      const checkCircle = (circleA, circleB) => {
+        const dx = circleA.x - circleB.x;
+        const dy = circleA.y - circleB.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < circleA.radius + circleB.radius) {
+          return true;
+        } else {
+          return false;
         }
-        fill() {
-          ctx.save();
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.rect(this.x, this.y, this.width, this.height);
-          ctx.closePath();
-          ctx.fill();
-          ctx.restore();
-        }
+      };
+
+      // const ballA = new Ball(300, 300, 100, "green");
+      // const ballB = new Ball(400, 400, 50);
+      // console.log(ballA);
+      // console.log(ballB);
+
+      // const mouse = getMouse(canvas);
+      // const frame = () => {
+      //   window.requestAnimationFrame(frame);
+      //   ctx.clearRect(0, 0, 600, 600);
+      //   if (checkCircle(ballA, ballB)) {
+      //     text.innerText = "撞上了";
+      //   } else {
+      //     text.innerText = "没撞上";
+      //   }
+      //   ballA.fill();
+      //   ballB.fill();
+      // };
+      // frame();
+
+      // 多物体碰撞
+
+      const n = 5;
+      const balls = [];
+
+      for (let i = 0; i < n; i++) {
+        const ball = new Ball(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height,
+          20,
+          getRandomColor()
+        );
+        ball.vx = Math.random() * 6 - 3;
+        ball.vy = Math.random() * 6 - 3;
+        balls.push(ball);
       }
+      const checkCollision = (ballA, i) => {
+        for (let j = i + 1; j < balls.length; j++) {
+          const ballB = balls[j];
+          if (checkCircle(ballA, ballB)) {
+            ballA.vx = -ballA.vx;
+            ballA.vy = -ballA.vy;
+            ballB.vx = -ballB.vx;
+            ballB.vy = -ballB.vy;
+            // 加入偏移量 防止重叠
 
-      const getKey = () => {
-        const key = {
-          direction: "",
-        };
-        window.addEventListener("keydown", function (e) {
-          switch (e.keyCode) {
-            case 38:
-            case 87:
-              key.direction = "up";
-              break;
-            case 39:
-            case 68:
-              key.direction = "right";
-              break;
-            case 40:
-            case 83:
-              key.direction = "down";
-              break;
-            case 37:
-            case 65:
-              key.direction = "left";
-              break;
-            default:
-              key.direction = "";
-              break;
+            if (ballA.vx > 0) {
+              ballA.x += 5;
+            } else {
+              ballA.x -= 5;
+            }
+            if (ballA.vy > 0) {
+              ballA.y += 5;
+            } else {
+              ballA.y -= 5;
+            }
+
+            if (ballB.vx > 0) {
+              ballB.x += 5;
+            } else {
+              ballB.x -= 5;
+            }
+            if (ballB.vy > 0) {
+              ballB.y += 5;
+            } else {
+              ballB.y -= 5;
+            }
           }
-        });
-        return key;
-      };
-
-      const createBox = () => {
-        const x = Math.random() * canvas.width;
-        const y = 0;
-        const width = Math.random() * 40 + 10;
-        const height = Math.random() * 40 + 10;
-        const color = getRandomColor();
-        const box = new Box(x, y, width, height, color);
-        boxes.push(box);
-        return box;
-      };
-
-      const boxes = [];
-      let activeBox = createBox();
-      const vy = 2;
-
-      const key = getKey();
-
-      window.addEventListener("keydown", function (e) {
-        ctx.clearRect(0, 0, 600, 600);
-        switch (key.direction) {
-          case "right":
-            activeBox.x += 10;
-            break;
-          case "down":
-            activeBox.y += 5;
-            break;
-          case "left":
-            activeBox.x -= 10;
-            break;
-          default:
-            break;
         }
-      });
+      };
+
+      const checkBorder = (ball) => {
+        if (ball.x < ball.radius) {
+          // 左侧边界
+          ball.x = ball.radius;
+          ball.vx = -ball.vx;
+        } else if (ball.x > canvas.width - ball.radius) {
+          // 右侧边界
+          ball.x = canvas.width - ball.radius;
+          ball.vx = -ball.vx;
+        }
+
+        if (ball.y < ball.radius) {
+          // 上侧边界
+          ball.y = ball.radius;
+          ball.vy = -ball.vy;
+        } else if (ball.y > canvas.height - ball.radius) {
+          // 下侧边界
+          ball.y = canvas.height - ball.radius;
+          ball.vy = -ball.vy;
+        }
+      };
+
+      const drawBall = (ball) => {
+        ball.fill();
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+      };
 
       const frame = () => {
         window.requestAnimationFrame(frame);
         ctx.clearRect(0, 0, 600, 600);
-        activeBox.y += vy;
-
-        if (activeBox.y > canvas.height - activeBox.height) {
-          activeBox.y = canvas.height - activeBox.height;
-          activeBox = createBox();
-        }
-
-        boxes.forEach((box) => {
-          if (activeBox !== box && checkRect(activeBox, box)) {
-            activeBox.y = box.y - activeBox.height;
-            activeBox = createBox();
-          }
-          box.fill();
-        });
+        balls.forEach(checkCollision);
+        balls.forEach(checkBorder);
+        balls.forEach(drawBall);
       };
       frame();
     </script>

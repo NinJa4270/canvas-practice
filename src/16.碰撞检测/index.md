@@ -3,6 +3,7 @@
 ## 外接矩形判定
 
 #### 矩形是否碰撞
+
 ```js
 const checkRect = (rectA, rectB) => {
   return !(
@@ -15,3 +16,16 @@ const checkRect = (rectA, rectB) => {
 ```
 
 ## 外接圆判定
+
+```js
+const checkCircle = (circleA, circleB) => {
+  const dx = circleA.x - circleB.x;
+  const dy = circleA.y - circleB.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  if (distance < (circleA.radius = circleB.radius)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+```
